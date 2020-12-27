@@ -1,0 +1,117 @@
+<html>
+<head>
+	<link rel="stylesheet" href="./styles.css">
+	<meta charset="utf8">
+	<title>Turing Machine</title>
+</head>
+<body>
+	<div class="main">
+		<h1>Turing Machine</h1>
+		
+		<div class="content">
+			<label>
+				<strong>Programa: <span id="progName">Nada selecionado</span></strong>
+				<input id="txbPrograma" style="display:none" type="file">
+				<button onClick="document.getElementById('txbPrograma').click()">Selecionar um arquivo</button>
+			</label>
+			
+			<label>
+				<strong>Entrada:</strong>
+				<input id="txbEntrada" type="text">
+			</label>
+			
+			<label>
+				<strong>Velocidade</strong>
+				<input id="txbVelocidade" type="range" min="1" max="4">
+				<div>
+					<strong>1x</strong>
+					<strong>2x</strong>
+					<strong>3x</strong>
+					<strong>4x</strong>
+				</div>
+			</label>
+			
+			<label style="text-align:center;">
+				<h2>Saída</h2>
+				<input id="txbSaida" disabled style="padding: 10px; border-radius: 15px; text-align: center; font-size: 20;" type="text">
+			</label>
+		</div>
+		
+		<div class="btn-grid">
+			<button id="btnExecutar" disabled>Executar</button>
+			<button id="btnAbortar">Abortar</button>
+		</div>
+	</div>
+	<div class="log">
+		<h1>Log</h1>
+		
+		<div id="log" class="content">		
+			<label>
+				<strong>#:</strong>
+				<span>[Posição Atual] - [Estado Atual] - [Saída Atual]</span>
+			</label>
+
+		</div>
+		
+		<div class="btn-grid">
+			<button id="btnLimpar">Limpar</button>
+		</div>
+	</div>
+	
+	<script src="./app.js"></script>
+	<script>
+		let loopId = -1;
+		
+		document.getElementById("txbPrograma").addEventListener("change", (e) => {
+			let progName = e.target.files[0].name;
+			
+			if (progName.split(".").length > 1) {
+				if (progName.split(".")[1] == "tur") {
+					document.getElementById("progName").innerHTML = progName;
+					carregaPrograma(e);
+					document.getElementById("btnExecutar").disabled = false;
+					
+					return;
+				}
+			}
+			
+			e.target.value = "";
+			alert("Arquivo inválido!");
+		});
+		
+		document.getElementById("btnLimpar").addEventListener("click", () => {
+			let log = document.getElementById("log");
+			log.innerHTML = log.children[0].outerHTML;
+		});
+		
+		document.getElementById("btnAbortar").addEventListener("click", () => {
+			clearInterval(loopId);
+		});
+		
+		document.getElementById("btnExecutar").addEventListener("click", () => {
+			document.getElementById("btnLimpar").click();
+			document.getElementById("txbSaida").value = "";
+			
+			let entrada = document.getElementById("txbEntrada").value;
+			let velocidade = 1000 / Number(document.getElementById("txbVelocidade").value);
+	
+			loopId = executaPrograma(entrada, velocidade, (saida) => {
+				setTimeout(() => {
+					document.getElementById("txbSaida").value = saida.replaceAll("_", " ").trim();
+
+					let log = document.getElementById("log");
+					log.children[log.children.length-1].style.background = saida != "ERR" ? "green" : "darkred";					
+					
+				}, 500);
+				
+			}, (novaEntrada, pos_atual, estado_atual) => {
+				let logContainer = document.getElementById("log");
+				
+				logContainer.innerHTML += `<label><strong>${logContainer.children.length-1}</strong><span>${pos_atual} | ${novaEntrada} | ${estado_atual}</span></label>`;
+				logContainer.children[logContainer.children.length-1].scrollIntoView();
+			});
+		});
+		
+	</script>
+</body>
+</html>

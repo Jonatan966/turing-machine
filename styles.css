@@ -1,0 +1,120 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.btn-grid {
+	display: flex;
+}
+.btn-grid > button {
+	flex: 1;
+	padding: 7.5px;
+	margin: 5px;
+}
+
+.log {
+	background: #043500;
+	color: #b8d5b6;
+	border-left: 2.5px solid #357b23;
+	
+	display: flex;
+	flex-direction: column;
+	max-height: 100vh;
+}
+.log h1:nth-child(1) {
+	text-align: center;
+	padding: 7.5px;
+}
+.log > .content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	
+	overflow-y: auto;
+}
+.log > .content > label {
+	background: orange;
+	color: white;
+	padding: 7.5px;
+	margin: 5px;
+	
+	display: flex;
+	font-weight: bold;
+}
+.log > .content > label > span {
+	flex: 1;
+	text-align: center;
+}
+
+.main {
+	background: #b8d5b6;
+	border-right: 2.5px solid #357b23;
+	
+	display: flex;
+	flex-direction: column;
+}
+.main h1:nth-child(1) {
+	text-align: center;
+	padding: 7.5px;
+	background: #043500;
+	color: #b8d5b6;
+	
+	border-bottom: 5px solid #357b23;
+}
+.main > .content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+}
+.main > .content > label {
+	display: flex;
+	flex-direction: column;
+
+	width: 50%;
+	margin: 10px;	
+}
+.main > .content > label > div {
+	display: flex;
+	justify-content: space-between;
+}
+.main > .content > label > input[type=range] {
+	-webkit-appearance: none;
+	height: 15px;
+	margin: 5px 0;
+	border-radius: 10px;
+	background: lightgreen;
+}
+.main > .content > label > strong {
+	display: flex;
+	justify-content: space-between;
+}
+.main > .content > label > input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: green;
+	cursor: pointer;
+}
+.main > .content > label > input[type=range]::-moz-range-thumb {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	border: none;
+	background: green;
+	cursor: pointer;
+}
